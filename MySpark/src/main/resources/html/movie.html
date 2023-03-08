@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电影</title>
+<style>
+    #main{
+        width: 1500px;
+        /*自适应的高度*/
+        height: 100vh;
+        margin: 0px auto;
+        padding: 0px;
+    }
+    #one{
+        width: 700px;
+        height: 50vh;
+        float: left;
+    }
+    #two{
+        width: 700px;
+        height: 50vh;
+        float: right;
+    }
+    #three{
+        width: 700px;
+        height: 50vh;
+        float: left;
+    }
+    #four{
+        width: 700px;
+        height: 50vh;
+        float: right;
+    }
+</style>
+</head>
+<body>
+    <div id="main">
+        <div id="one"></div>
+        <div id="two"></div>
+        <div id="three"></div>
+        <div id="four"></div>
+    </div>
+</body>
+<!--引入外部的js文件-->
+<script src="../js/jquery.min.js"></script>
+<script src="../js/echarts-all.js"></script>
+<!--编写javascript代码引用json文件-->
+<script>
+   $(function(){
+       $.ajax({ //统计各个国家排电影的总数
+           url:"../data/part-00000-6aee901d-e3d1-4e45-8ced-26e24edadb88.json",
+           type:"get",
+           dataType:"json",
+           success:function(res){
+               let x=[]
+               let y=[]
+               for (let i=0;i<res.length;i++){
+                   x.push(res[i].address)
+                   y.push(res[i].count)
+               }
+                //1、初始化echats
+               let myEcharts = echarts.init(document.getElementById("one"))
+               // 2、设置option选项值
+               let option = {
+                   title : {
+                       text: '统计各个国家拍电影总数排行榜',
+                       subtext: '豆瓣'
+                   },
+                   tooltip : {
+                       trigger: 'axis'
+                   },
+                   legend: {
+                       data:['电影数据']
+                   },
+                   calculable : true,
+                   xAxis : [
+                       {
+                           type : 'category',
+                           boundaryGap : false,
+                           data : x
+                       }
+                   ],
+                   yAxis : [
+                       {
+                           type : 'value',
+                           axisLabel : {
+                               formatter: '{value} 部'
+                           },
+                           splitArea : {show : true}
+                       }
+                   ],
+                   series : [
+                       {
+                           name:'电影数据',
+                           type:'line',
+                           itemStyle: {
+                               normal: {
+                                   lineStyle: {
+                                       shadowColor : 'rgba(0,0,0,0.4)'
+                                   }
+                               }
+                           },
+                           data:y
+                       }
+                   ]
+               };
+
+               // 3、加载Option选项
+               myEcharts.setOption(option)
+           }
+       })
+       $.ajax({ //导演的拍电影的总数
+           url:"../data/part-00000-256eb3a7-952f-49ee-befe-9cc3952d7d17.json",
+           type:"get",
+           dataType:"json",
+           success:function(res){
+               let x=[]
+               let y=[]
+               for (let i=0;i<res.length;i++){
+                   x.push(res[i].direct)
+                   y.push(res[i].count)
+               }
+               //1、初始化echats
+               let myEcharts = echarts.init(document.getElementById("two"))
+               // 2、设置option选项值
+               let option = {
+                   title : {
+                       text: '导演的拍电影排行榜',
+                       subtext: '豆瓣'
+                   },
+                   tooltip : {
+                       trigger: 'axis'
+                   },
+                   legend: {
+                       data:['电影数据']
+                   },
+                   toolbox: {
+                       show : true,
+                       feature : {
+                           mark : true,
+                           dataView : {readOnly: false},
+                           magicType:['line', 'bar'],
+                           restore : true,
+                           saveAsImage : true
+                       }
+                   },
+                   calculable : true,
+                   xAxis : [
+                       {
+                           type : 'category',
+                           data : x
+                       }
+                   ],
+                   yAxis : [
+                       {
+                           type : 'value',
+                           splitArea : {show : true}
+                       }
+                   ],
+                   series : [
+                       {
+                           name:'电影数据',
+                           type:'bar',
+                           data:y
+                       }
+                   ]
+               };
+
+
+               // 3、加载Option选项
+               myEcharts.setOption(option)
+           }
+       })
+       $.ajax({ //统计各个国家排电影的总数
+           url:"../data/part-00000-419034d2-3312-487c-a467-d426debeb2ef.json",
+           type:"get",
+           dataType:"json",
+           success:function(res){
+               let x=[]
+               let y=[]
+               for (let i=0;i<res.length;i++){
+                   x.push(res[i].movieName)
+                   y.push(res[i].grade)
+               }
+               //1、初始化echats
+               let myEcharts = echarts.init(document.getElementById("three"))
+               // 2、设置option选项值
+               let option = {
+                   title : {
+                       text: '评分排行榜',
+                       subtext: '豆瓣'
+                   },
+                   tooltip : {
+                       trigger: 'axis'
+                   },
+                   legend: {
+                       data:['电影数据']
+                   },
+                   calculable : true,
+                   xAxis : [
+                       {
+                           type : 'category',
+                           boundaryGap : false,
+                           data : x
+                       }
+                   ],
+                   yAxis : [
+                       {
+                           type : 'value',
+                           axisLabel : {
+                               formatter: '{value} 分'
+                           },
+                           splitArea : {show : true}
+                       }
+                   ],
+                   series : [
+                       {
+                           name:'电影数据',
+                           type:'line',
+                           itemStyle: {
+                               normal: {
+                                   lineStyle: {
+                                       shadowColor : 'rgba(0,0,0,0.4)'
+                                   }
+                               }
+                           },
+                           data:y
+                       }
+                   ]
+               };
+
+               // 3、加载Option选项
+               myEcharts.setOption(option)
+           }
+       })
+       $.ajax({ //统计各个国家排电影的总数
+           url:"../data/part-00000-d06a0328-f4be-408c-b050-231c1f17a2b9.json",
+           type:"get",
+           dataType:"json",
+           success:function(res){
+               let x=[]
+               let y=[]
+               for (let i=0;i<res.length;i++){
+                   x.push(res[i].movieName)
+                   y.push({"value":res[i].count,"name":res[i].movieName})
+               }
+               //1、初始化echats
+               let myEcharts = echarts.init(document.getElementById("four"))
+               // 2、设置option选项值
+               let option = {
+                   title : {
+                       text: '上映率',
+                       subtext: '豆瓣',
+                       x:'center'
+                   },
+                   tooltip : {
+                       trigger: 'item',
+                       formatter: "{a} <br/>{b} : {c} ({d}%)"
+                   },
+                   legend: {
+                       orient : 'vertical',
+                       x : 'left',
+                       data:x
+                   },
+                   toolbox: {
+                       show : true,
+                       feature : {
+                           mark : true,
+                           dataView : {readOnly: false},
+                           restore : true,
+                           saveAsImage : true
+                       }
+                   },
+                   calculable : true,
+                   series : [
+                       {
+                           name:'观影次数',
+                           type:'pie',
+                           radius : '55%',
+                           center: ['50%', 225],
+                           data:y
+                       }
+                   ]
+               };
+
+               // 3、加载Option选项
+               myEcharts.setOption(option)
+           }
+       })
+   })
+</script>
+</html>
